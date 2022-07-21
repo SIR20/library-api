@@ -50,4 +50,12 @@ class UserController extends Controller
     {
         return response(Auth::user()->role, 200);
     }
+
+    public function changePassword(){
+
+    }
+
+    public function changeEmail(){
+        
+    }
 }

@@ -14,28 +14,40 @@ class UserController extends Controller
         $email = $req->get('email');
         $password = $req->get('password');
         $created_at = date("Y-m-d");
+        if (User::where('email', '=', $email)->first() != null)
+            return $this->error('Пользователь с таким логином уже существует','1001');
 
         $user = User::create(
             [
                 'name' => $name,
                 'email' => $email,
                 'password' => $password,
+                'role' => 'user',
                 'created_at' => $created_at
             ]
         );
-
-
-
-        return response()->json($user->createToken('API Token'), 200);
+        $token = $user->createToken('API Token')->plainTextToken;
+        return response()->json(['access_token' => $token], 200);
     }
 
     public function login(Request $req)
     {
-        return response('Ok', 200);
+        $email = $req->get('email');
+        $password = $req->get('password');
+        $user = User::where([
+            ['email', '=', $email],
+            ['password', '=', $password]
+        ])->first();
+
+        if ($user === null)
+            return $this->error('Неверный логин или пароль', '1002');
+
+        $token = $user->createToken('API Token')->plainTextToken;
+        return response()->json(['access_token' => $token], 200);
     }
 
     public function rename(Request $req)
     {
-        return response('OK', 200);
+        return response(Auth::user()->role, 200);
     }
 }

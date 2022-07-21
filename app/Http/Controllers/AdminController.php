@@ -24,24 +24,15 @@ class AdminController extends Controller
         return response()->json(['access_token' => $token], 200);
     }
 
-    public function addModer(Request $req){
+    public function addUser(Request $req){
 
     }
 
-    public function deleteModer(Request $req){
+    public function deleteUser(Request $req){
 
     }
 
-    public function rename(Request $req)
-    {
-        return response(Auth::user()->role, 200);
-    }
+    public function setPassword(Request $req){
 
-    public function changePassword(){
-
-    }
-
-    public function changeEmail(){
-        
     }
 }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('author');
             $table->text('description');
+            $table->string('genre');
             $table->integer('year');
         });
     }

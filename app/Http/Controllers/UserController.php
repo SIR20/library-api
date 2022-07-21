@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Book;
 
 class UserController extends Controller
 {
@@ -46,16 +47,7 @@ class UserController extends Controller
         return response()->json(['access_token' => $token], 200);
     }
 
-    public function rename(Request $req)
-    {
-        return response(Auth::user()->role, 200);
-    }
-
-    public function changePassword(){
-
-    }
-
-    public function changeEmail(){
+    public function getBooks(){
         
     }
 }

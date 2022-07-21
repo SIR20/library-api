@@ -20,19 +20,44 @@ class AdminController extends Controller
         if ($user === null)
             return $this->error('Неверный логин или пароль', '1002');
 
-        $token = $user->createToken('API Token')->plainTextToken;
-        return response()->json(['access_token' => $token], 200);
+        if ($user->role === 'admin') {
+            $token = $user->createToken('API Token')->plainTextToken;
+            return response()->json(['access_token' => $token], 200);
+        }
     }
 
-    public function addUser(Request $req){
+    public function addUser(Request $req)
+    {
+        $name = $req->get('name');
+        $email = $req->get('email');
+        $password = $req->get('password');
+        $role = $req->get('role');
+        $created_at = date("Y-m-d");
+        if (User::where('email', '=', $email)->first() != null)
+            return $this->error('Пользователь с таким логином уже существует', '1001');
 
+        $user = User::create(
+            [
+                'name' => $name,
+                'email' => $email,
+                'password' => $password,
+                'role' => $role,
+                'created_at' => $created_at
+            ]
+        );
+        return response('', 200);
     }
 
-    public function deleteUser(Request $req){
-
+    public function deleteUser(Request $req)
+    {
+        $user_id = $req->get('user_id');
+        User::find($user_id)->delete();
     }
 
-    public function setPassword(Request $req){
-
+    public function setPassword(Request $req)
+    {
+        $user_id = $req->get('user_id');
+        $password = $req->get('password');
+        User::find($user_id)->update(['password' => $password]);
     }
 }

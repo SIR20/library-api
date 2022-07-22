@@ -15,6 +15,7 @@ class UserBook extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'book_id',
         'librarian_id',
         'reservated_at'
     ];

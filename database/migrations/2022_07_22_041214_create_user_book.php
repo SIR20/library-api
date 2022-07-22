@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('user_book', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
+            $table->integer('book_id');
             $table->integer('librarian_id');
             $table->date('reservated_at');
         });

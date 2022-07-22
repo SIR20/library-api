@@ -86,7 +86,7 @@ class UserController extends Controller
     public function canselReservation(Request $req)
     {
         $user_id = Auth::id();
-        $book_id = $req->get('user_book_id');
+        $book_id = $req->get('book_id');
         UserBook::where([
             ['book_id', '=', $book_id],
             ['user_id', '=', $user_id]

@@ -29,7 +29,7 @@ Route::prefix('librarian')->controller(LibrarianController::class)->group(functi
     Route::post('book/create', 'addBook')->middleware('auth:sanctum');
     Route::post('user/unDelete', 'unDeleteUser')->middleware('auth:sanctum');
     Route::post('book/send', 'sendBook')->middleware('auth:sanctum');
-    Route::post('book/receive', 'sendBook')->middleware('auth:sanctum');
+    Route::post('book/receive', 'receiveBook')->middleware('auth:sanctum');
 
     Route::delete('book/deleteBook', 'deleteBook')->middleware('auth:sanctum');
 });

@@ -21,7 +21,7 @@ class LibrarianController extends Controller
         ])->first();
 
         if ($user === null)
-            return $this->error('Неверный логин или пароль', '1002');
+            return $this->message('Неверный логин или пароль', '1002');
 
         if ($user->role === 'librarian') {
             $token = $user->createToken('API Token')->plainTextToken;
@@ -45,22 +45,32 @@ class LibrarianController extends Controller
                 'year' => $year
             ]
         );
+        return $this->message('Ok',200);
     }
 
     public function deleteBook(Request $req)
     {
         $book_id = $req->get('book_id');
         Book::find($book_id)->delete();
+        return $this->message('Ok',200);
     }
 
     public function sendBook(Request $req)
     {
         $librarian_id = Auth::id();
         $user_book_id = $req->get('user_book_id');
-        UserBook::where('id','=',$user_book_id)->update(['librarian_id' => $librarian_id]);
+        UserBook::where('id', '=', $user_book_id)->update(['librarian_id' => $librarian_id]);
+        return $this->message('Ok',200);
     }
 
     public function receiveBook(Request $req)
     {
+        $book_id = $req->get('book_id');
+        UserBook::where(
+            'book_id',
+            '=',
+            $book_id
+        )->delete();
+        return $this->message('Ok',200);
     }
 }

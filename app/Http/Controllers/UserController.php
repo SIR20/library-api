@@ -17,7 +17,7 @@ class UserController extends Controller
         $password = $req->get('password');
         $created_at = date("Y-m-d");
         if (User::where('email', '=', $email)->first() != null)
-            return $this->error('Пользователь с таким логином уже существует', '1001');
+            return $this->message('Пользователь с таким логином уже существует', '1001');
 
         $user = User::create(
             [
@@ -42,7 +42,7 @@ class UserController extends Controller
         ])->first();
 
         if ($user === null)
-            return $this->error('Неверный логин или пароль', '1002');
+            return $this->message('Неверный логин или пароль', '1002');
 
         if ($user->role === 'user') {
             $token = $user->createToken('API Token')->plainTextToken;
@@ -81,6 +81,7 @@ class UserController extends Controller
         $book_id = $req->get('book_id');
         $reservated_at = date("Y-m-d");
         UserBook::create(['book_id' => $book_id, 'user_id' => $user_id, 'librarian_id' => 0, 'reservated_at' => $reservated_at]);
+        return $this->message('Ok',200);
     }
 
     public function canselReservation(Request $req)
@@ -91,5 +92,6 @@ class UserController extends Controller
             ['book_id', '=', $book_id],
             ['user_id', '=', $user_id]
         ])->delete();
+        return $this->message('Ok',200);
     }
 }

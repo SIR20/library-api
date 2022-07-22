@@ -34,7 +34,7 @@ class AdminController extends Controller
         $role = $req->get('role');
         $created_at = date("Y-m-d");
         if (User::where('email', '=', $email)->first() != null)
-            return $this->error('Пользователь с таким логином уже существует', '1001');
+            return $this->message('Пользователь с таким логином уже существует', '1001');
 
         $user = User::create(
             [
@@ -45,13 +45,14 @@ class AdminController extends Controller
                 'created_at' => $created_at
             ]
         );
-        return response('', 200);
+        return $this->message('Ok',200);
     }
 
     public function deleteUser(Request $req)
     {
         $user_id = $req->get('user_id');
         User::find($user_id)->delete();
+        return $this->message('Ok',200);
     }
 
     public function setPassword(Request $req)
@@ -59,5 +60,6 @@ class AdminController extends Controller
         $user_id = $req->get('user_id');
         $password = $req->get('password');
         User::find($user_id)->update(['password' => $password]);
+        return $this->message('Ok',200);
     }
 }

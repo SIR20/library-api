@@ -5,7 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\LibrarianController;
+use App\Http\Controllers\LoginController;
+
+Route::post('login', [LoginController::class, 'login']);
+Route::post('create', [LoginController::class, 'create']);
 
 Route::prefix('user')->controller(UserController::class)->group(function () {
     Route::post('create', 'create');
@@ -34,6 +39,9 @@ Route::prefix('librarian')->controller(LibrarianController::class)->group(functi
     Route::delete('book/deleteBook', 'deleteBook')->middleware('auth:sanctum');
 });
 
-Route::get('book/books', [UserController::class, 'getBooks']);
-Route::get('book/byAuthor', [UserController::class, 'getBookByAuthor']);
-Route::get('book/byGenre', [UserController::class, 'getBookByGenre']);
+
+Route::prefix('book')->controller(BookController::class)->group(function () {
+    Route::get('books', 'getBooks');
+    Route::get('byAuthor', 'getBookByAuthor');
+    Route::get('byGenre', 'getBookByGenre');
+});

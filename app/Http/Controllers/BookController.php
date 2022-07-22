@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
-class UserController extends Controller
-{   
+class BookController extends Controller
+{
     public function getBooks()
     {
         return response()->json(Book::all());

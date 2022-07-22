@@ -11,24 +11,6 @@ use App\Models\UserBook;
 
 class LibrarianController extends Controller
 {
-    public function login(Request $req)
-    {
-        $email = $req->get('email');
-        $password = $req->get('password');
-        $user = User::where([
-            ['email', '=', $email],
-            ['password', '=', $password]
-        ])->first();
-
-        if ($user === null)
-            return $this->message('Неверный логин или пароль', '1002');
-
-        if ($user->role === 'librarian') {
-            $token = $user->createToken('API Token')->plainTextToken;
-            return response()->json(['access_token' => $token], 200);
-        }
-    }
-
     public function addBook(Request $req)
     {
         $name = $req->get('name');

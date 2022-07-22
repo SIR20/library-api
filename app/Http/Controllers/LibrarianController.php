@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\User;
+use App\Models\UserBook;
 
 class LibrarianController extends Controller
 {
@@ -54,6 +55,9 @@ class LibrarianController extends Controller
 
     public function sendBook(Request $req)
     {
+        $librarian_id = Auth::id();
+        $user_book_id = $req->get('user_book_id');
+        UserBook::where('id','=',$user_book_id)->update(['librarian_id' => $librarian_id]);
     }
 
     public function receiveBook(Request $req)

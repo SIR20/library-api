@@ -70,15 +70,26 @@ class UserController extends Controller
     public function getBookByAuthor(Request $req)
     {
         $author = $req->get('author');
-        return response()->json(Book::where('author', '=', $author));
+        echo $author;
+        $result = Book::where('author', $author);
+        return response()->json($result);
     }
 
     public function reservation(Request $req)
     {
-        
+        $user_id = Auth::id();
+        $book_id = $req->get('book_id');
+        $reservated_at = date("Y-m-d");
+        UserBook::create(['book_id' => $book_id, 'user_id' => $user_id, 'librarian_id' => 0, 'reservated_at' => $reservated_at]);
     }
 
     public function canselReservation(Request $req)
     {
+        $user_id = Auth::id();
+        $book_id = $req->get('user_book_id');
+        UserBook::where([
+            ['book_id', '=', $book_id],
+            ['user_id', '=', $user_id]
+        ])->delete();
     }
 }

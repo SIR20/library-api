@@ -11,6 +11,7 @@ class UserBook extends Model
 
     public $timestamps = false;
     
+    protected $table = 'user_book';
     protected $fillable = [
         'id',
         'user_id',

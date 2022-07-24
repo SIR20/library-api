@@ -17,11 +17,11 @@ class LibrarianController extends Controller
             return $this->message('Non Authorize', 1001);
 
         $req->validate([
-            'name|required|alpha_num',
-            'author|required|alpha',
-            'description|required',
-            'genre|required|alpha',
-            'year|required|digits:4'
+            'name'=>'required|alpha_num',
+            'author'=>'required|alpha',
+            'description'=>'required',
+            'genre'=>'required|alpha',
+            'year'=>'required|digits:4'
         ]);
 
         $name = $req->get('name');
@@ -46,7 +46,9 @@ class LibrarianController extends Controller
         if (Auth::user()->role != 'librarian')
             return $this->message('Non Authorize', 1001);
 
-        $req->validate(['book_id|required']);
+        $req->validate([
+            'book_id' => 'required|numeric'
+        ]);
 
         $book_id = $req->get('book_id');
         Book::find($book_id)->delete();

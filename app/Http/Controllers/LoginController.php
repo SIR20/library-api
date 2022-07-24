@@ -13,9 +13,9 @@ class LoginController extends Controller
     {
 
         $req->validate([
-            'name|required|alpha',
-            'email|required|email',
-            'password|required'
+            'name' => 'required|alpha',
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
         $name = $req->get('name');
@@ -24,7 +24,7 @@ class LoginController extends Controller
         $created_at = date("Y-m-d");
 
         if (User::where('email', '=', $email)->first() != null)
-            return $this->message('Пользователь с таким логином уже существует', '1001');
+            return $this->message('Пользователь с таким логином уже существует', 1001);
 
         $user = User::create(
             [
@@ -44,15 +44,15 @@ class LoginController extends Controller
     {
 
         $req->validate([
-            'email|required|email',
-            'password|required'
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
         $email = $req->get('email');
         $password = $req->get('password');
         $user = User::where('email', '=', $email)->first();
 
         if (!Hash::check($password, $user->password))
-            return $this->message('Неверный логин или пароль', '1002');
+            return $this->message('Неверный логин или пароль', 1001);
 
 
         $token = $user->createToken('API Token', [$user->role])->plainTextToken;

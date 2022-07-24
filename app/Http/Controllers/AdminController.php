@@ -14,10 +14,10 @@ class AdminController extends Controller
             return $this->message('Non Authorize', 1001);
 
         $req->validate([
-            'name|required|alpha',
-            'email|required|email',
-            'password|required',
-            'role|required|alpha',
+            'name'=>'required|alpha',
+            'email'=>'required|email',
+            'password'=>'required',
+            'role'=>'required|alpha',
         ]);
 
         $name = $req->get('name');
@@ -47,7 +47,7 @@ class AdminController extends Controller
             return $this->message('Non Authorize', 1001);
 
         $req->validate([
-            'user_id|required|numeric'
+            'user_id'=>'required|numeric'
         ]);
 
         $user_id = $req->get('user_id');
@@ -61,8 +61,8 @@ class AdminController extends Controller
             return $this->message('Non Authorize', 1001);
 
         $req->validate([
-            'user_id|required|numeric',
-            'password|required'
+            'user_id'=>'required|numeric',
+            'password'=>'required'
         ]);
 
         $user_id = $req->get('user_id');

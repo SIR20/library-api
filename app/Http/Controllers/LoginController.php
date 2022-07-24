@@ -22,12 +22,12 @@ class LoginController extends Controller
             [
                 'name' => $name,
                 'email' => $email,
-                'password' => Hash::make($password),
+                'password' => $password,
                 'role' => 'user',
                 'created_at' => $created_at
             ]
         );
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user->createToken('API Token',[$user->role])->plainTextToken;
         return response()->json(['access_token' => $token], 200);
     }
 
@@ -40,9 +40,8 @@ class LoginController extends Controller
         if (!Hash::check($password, $user->password))
             return $this->message('Неверный логин или пароль', '1002');
 
-        if ($user->role === 'user') {
-            $token = $user->createToken('API Token')->plainTextToken;
+
+            $token = $user->createToken('API Token',[$user->role])->plainTextToken;
             return response()->json(['access_token' => $token], 200);
-        }
     }
 }

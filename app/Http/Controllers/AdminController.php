@@ -10,13 +10,15 @@ class AdminController extends Controller
 {
     public function addUser(Request $req)
     {
+        if (Auth::user()->role != 'admin')
+            return $this->message('Non Authorize', 1001);
         $name = $req->get('name');
         $email = $req->get('email');
         $password = $req->get('password');
         $role = $req->get('role');
         $created_at = date("Y-m-d");
         if (User::where('email', '=', $email)->first() != null)
-            return $this->message('Пользователь с таким логином уже существует', '1001');
+            return $this->message('Пользователь с таким логином уже существует', 1001);
 
         $user = User::create(
             [
@@ -27,21 +29,25 @@ class AdminController extends Controller
                 'created_at' => $created_at
             ]
         );
-        return $this->message('Ok',200);
+        return $this->message('Ok', 200);
     }
 
     public function deleteUser(Request $req)
     {
+        if (Auth::user()->role != 'admin')
+            return $this->message('Non Authorize', 1001);
         $user_id = $req->get('user_id');
         User::find($user_id)->delete();
-        return $this->message('Ok',200);
+        return $this->message('Ok', 200);
     }
 
     public function setPassword(Request $req)
     {
+        if (Auth::user()->role != 'admin')
+            return $this->message('Non Authorize', 1001);
         $user_id = $req->get('user_id');
         $password = $req->get('password');
         User::find($user_id)->update(['password' => $password]);
-        return $this->message('Ok',200);
+        return $this->message('Ok', 200);
     }
 }

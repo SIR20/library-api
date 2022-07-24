@@ -12,31 +12,27 @@ use App\Http\Controllers\LoginController;
 Route::post('login', [LoginController::class, 'login']);
 Route::post('create', [LoginController::class, 'create']);
 
-Route::prefix('user')->controller(UserController::class)->group(function () {
-    Route::post('create', 'create');
-    Route::post('login', 'login');
-    Route::post('book/reservation', 'reservation')->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->prefix('user')->controller(UserController::class)->group(function () {
+    Route::post('book/reservation', 'reservation');
 
-    Route::delete('book/delete', 'canselReservation')->middleware('auth:sanctum');
+    Route::delete('book/delete', 'canselReservation');
 });
 
-Route::prefix('admin')->controller(AdminController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('/user/create', 'addUser')->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->prefix('admin')->controller(AdminController::class)->group(function () {
+    Route::post('/user/create', 'addUser');
 
-    Route::delete('user/delete', 'deleteUser')->middleware('auth:sanctum');
+    Route::delete('user/delete', 'deleteUser');
 
-    Route::patch('/user/changePassword', 'changePassword')->middleware('auth:sanctum');
+    Route::patch('/user/changePassword', 'changePassword');
 });
 
-Route::prefix('librarian')->controller(LibrarianController::class)->group(function () {
-    Route::post('login', 'login');
-    Route::post('book/create', 'addBook')->middleware('auth:sanctum');
-    Route::post('user/unDelete', 'unDeleteUser')->middleware('auth:sanctum');
-    Route::post('book/send', 'sendBook')->middleware('auth:sanctum');
-    Route::post('book/receive', 'receiveBook')->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->prefix('librarian')->controller(LibrarianController::class)->group(function () {
+    Route::post('book/create', 'addBook');
+    Route::post('user/unDelete', 'unDeleteUser');
+    Route::post('book/send', 'sendBook');
+    Route::post('book/receive', 'receiveBook');
 
-    Route::delete('book/deleteBook', 'deleteBook')->middleware('auth:sanctum');
+    Route::delete('book/deleteBook', 'deleteBook');
 });
 
 

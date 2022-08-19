@@ -16,7 +16,7 @@ class BookController extends Controller
     {
 
         $req->validate([
-            'name|required|alpha',
+            'name'=>'required|alpha',
         ]);
 
         $name = $req->get('name');
@@ -26,7 +26,7 @@ class BookController extends Controller
     public function getBookByGenre(Request $req)
     {
         $req->validate([
-            'genre|required|alpha',
+            'genre'=>'required|alpha',
         ]);
 
         $genre = $req->get('genre');
@@ -36,7 +36,7 @@ class BookController extends Controller
     public function getBookByAuthor(Request $req)
     {
         $req->validate([
-            'author|required|alpha',
+            'author'=>'required|alpha',
         ]);
 
         $author = $req->get('author');
